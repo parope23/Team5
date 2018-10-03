@@ -142,4 +142,4 @@ if __name__ == '__main__':
         fn, d = save_image(final, result_path, img_path)
         logger.info("'{filename}' saved in '{folder}' folder".format(filename=fn, folder=os.path.join(ROOT_DIR, d)))
 
-    logger.info("%d masks saved in %.3fs" & (len(test_images), time.time() - t0))
+    logger.info("%d masks saved in %.3fs" % (len(test_images), time.time() - t0))
