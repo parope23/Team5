@@ -161,7 +161,7 @@ def threshold_image(img, ths, channel=0):
     # Iterate over thresholds
     for th in ths:
         # Add the values between the thresholds as 'True' values to the mask
-        mask += np.logical_and(th[0] < c, c < th[1])
+        mask += np.logical_and(th[0] <= c, c <= th[1])
 
     return mask
 
@@ -237,3 +237,11 @@ def print_confusion_matrix(values):
     np.set_printoptions(suppress=True)
     print(values)
     np.set_printoptions(suppress=False)
+
+
+def print_metrics(values):
+    print('Precision  : %.3f' % values[0])
+    print('Accuracy   : %.3f' % values[1])
+    print('Specificity: %.3f' % values[2])
+    print('Sensitivity: %.3f' % values[3])
+    print('F1 Score   : %.3f' % (2 * values[0] * values[2] / (values[0] + values[2])))
