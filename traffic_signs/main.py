@@ -52,7 +52,7 @@ t0 = time.time()
 t_frame = 0
 
 # Iterate over test image paths
-for img_dir in test_images[:10]:
+for img_dir in test_images:
     t_frame_0 = time.time()
     # Get numpy array of the image and convert it to HSV
     img = get_img(TRAIN_DIR, img_dir)
