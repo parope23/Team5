@@ -42,14 +42,13 @@ test_images = get_files_from_dir(TRAIN_DIR)
 # test_images = os.listdir(TEST_DIR)
 
 # Set threshold based on ranges of interest
-ths = np.array([
+ths_h = np.array([
     [0.0, 0.03],    # Red threshold
     [0.59, 0.62],   # Blue threshold
     [0.98, 1.0]     # Res threshold
 ])
-
-# S and V thresholds
-ths_s_and_v = np.array([[0, 0.05]])
+ths_s = np.array([[0, 0.05]])
+ths_v = np.array([[0, 0.05]])
 
 # Get elapsed time
 t0 = time.time()
@@ -64,12 +63,12 @@ for img_dir in test_images:
     # img_hsv = ndimage.filters.gaussian_filter(img_hsv, sigma=3)
 
     # Get the mask of the HSV image
-    mask = threshold_image(img_hsv, ths)
-    mask += threshold_image(img_hsv, ths_s_and_v, channel=1)
-    mask += threshold_image(img_hsv, ths_s_and_v, channel=2)
+    mask = threshold_image(img_hsv, ths_h, channel=0)
+    mask += threshold_image(img_hsv, ths_s, channel=1)
+    mask += threshold_image(img_hsv, ths_v, channel=2)
 
     # Create a numpy array where mask values are 255
-    final = (255 * mask).astype(np.uint8)
+    final = mask.astype(np.uint8)
 
     # Save mask as image
     fn, d = save_image(final, RESULT_DIR, img_dir)
