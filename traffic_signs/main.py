@@ -7,7 +7,8 @@ import numpy as np
 import shutil
 import time
 
-from traffic_signs.utils import get_img, rgb2hsv, threshold_image, save_image, get_files_from_dir
+from traffic_signs.utils import get_img, rgb2hsv, threshold_image, save_image, get_files_from_dir, confusion_matrix, \
+    print_confusion_matrix
 
 # Logger setup
 logging.basicConfig(
@@ -20,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 # Directory in the root directory where the results will be saved
 RESULT_DIR = os.path.join('m1-results', 'weekX', 'test', 'method1')
+# Useful directories
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 TRAIN_DIR = os.path.join('dataset', 'train')
 TRAIN_GTS_DIR = os.path.join(TRAIN_DIR, 'gt')
@@ -50,7 +52,7 @@ t0 = time.time()
 t_frame = 0
 
 # Iterate over test image paths
-for img_dir in test_images:
+for img_dir in test_images[:10]:
     t_frame_0 = time.time()
     # Get numpy array of the image and convert it to HSV
     img = get_img(TRAIN_DIR, img_dir)
@@ -72,3 +74,5 @@ for img_dir in test_images:
 logger.info(
     "%d masks saved in %.3fs (%.3fs per frame)" % (len(test_images), time.time() - t0, t_frame / len(test_images))
 )
+
+print_confusion_matrix(confusion_matrix(RESULT_DIR, TRAIN_MASKS_DIR))

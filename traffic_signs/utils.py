@@ -5,19 +5,24 @@ import logging
 import os
 
 # 3rd party modules
+import random
+
 import imageio
 import numpy as np
 
 from skimage import color
 
 # Local modules
-from traffic_signs.evaluation.evaluation_funcs import performance_accumulation_pixel, performance_evaluation_pixel
+from evaluation.evaluation_funcs import performance_accumulation_pixel, performance_evaluation_pixel
+
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Logger setup
 logging.basicConfig(
-    level=logging.DEBUG,
-    # level=logging.INFO,
+    # level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
 )
 logger = logging.getLogger(__name__)
@@ -77,6 +82,10 @@ def get_img(folder_dir, img_dir):
     return imageio.imread(img_path)
 
 
+def get_patch(img, x_min, y_min, x_max, y_max):
+    return img[y_min:y_max, x_min:x_max]
+
+
 def img_name_to_mask_name(filename):
     """
     Get numpy array representation of the test image.
@@ -89,6 +98,48 @@ def img_name_to_mask_name(filename):
     logger.debug("'{filename}' converted to '{mask_name}".format(filename=filename, mask_name=mask_name))
 
     return mask_name
+
+
+def gt_to_mask(gt):
+    return gt.replace('gt', 'mask').replace('txt', 'png')
+
+
+def gt_to_img(gt):
+    return gt.replace('gt.', '').replace('txt', 'jpg')
+
+
+def mask_to_gt(gt):
+    return gt.replace('mask', 'gt').replace('png', 'txt')
+
+
+def get_gt_data(dir_path, gt_name):
+    f = open(os.path.join(dir_path, gt_name), 'r')
+    l = f.readlines()
+    f.close()
+
+    return l
+
+
+def get_unique_values_of_col(df, col):
+    return np.unique(df[col].tolist())
+
+
+def get_n_samples_of_col(df, col, n, val=None):
+    if val is None:
+        res = df[col]
+    else:
+        res = df[df[col] == val][col]
+
+    idxs = random.sample(res.index.tolist(), n)
+
+    return [v[0] for v in idxs]
+
+
+def parse_gt_data(line):
+    l = line.strip().split(' ')
+    vals = list(map(float, l[:-1]))
+    vals.append(l[-1].strip())
+    return vals
 
 
 def threshold_image(img, ths, channel=0):
@@ -186,7 +237,3 @@ def print_confusion_matrix(values):
     np.set_printoptions(suppress=True)
     print(values)
     np.set_printoptions(suppress=False)
-
-
-if __name__ == '__main__':
-    print(get_files_from_dir('.'))
