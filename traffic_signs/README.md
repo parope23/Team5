@@ -2,7 +2,7 @@
 
 Use the `traffic_signs/main.py` file to obtain the traffic sign masks of a set of images.
 
-After run the script, result masks will be saved into a directory and performance metrics will be 
+After running the script, result masks will be saved into a directory and performance metrics will be 
 printed on the screen.
 
 ## 1. Setup
@@ -23,7 +23,7 @@ $ mkvirtualenv -p python3 venv-traffic_signs
 
 ## 2. Run the script
 
-To run the script, you will need to setup some variables in the `main.py` file:
+To run the script, you will need to set some variables in the `main.py` file:
 
 1. `TEST_DIR`: Where the target images are located
 2. `RESULT_DIR`: Where the masks obtained from the target images will be saved
@@ -47,4 +47,4 @@ TP | FP
 FN | TN
 ```
 
-And precision, accuracy, specificity and sensitivity values of the method used.
+Also, precision, accuracy, specificity and sensitivity values of the used method will be displayed.
