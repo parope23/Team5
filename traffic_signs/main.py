@@ -43,12 +43,12 @@ test_images = get_files_from_dir(TRAIN_DIR)
 
 # Set threshold based on ranges of interest
 ths_h = np.array([
-    [0.0, 0.03],    # Red threshold
-    [0.59, 0.62],   # Blue threshold
-    [0.98, 1.0]     # Res threshold
-])
-ths_s = np.array([[0, 0.05]])
-ths_v = np.array([[0, 0.05]])
+      [0.0, 0.05],     # Red threshold
+      [0.55, 0.65],   # Blue threshold
+      [0.95, 1.0]      # Res threshold
+      ])
+ths_s = np.array([[0.0, 1.0]])
+ths_v = np.array([[0.0, 1.0]])
 
 # Get elapsed time
 t0 = time.time()
